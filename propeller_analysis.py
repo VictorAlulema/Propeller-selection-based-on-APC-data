@@ -120,7 +120,7 @@ class Propellers:
         prop_T     = np.array(propellers[:,9] , dtype = np.float)
         if SI == False:
             file_name = 'V' + str(round(speed , 2)) + '__' + 'T' + \
-                        str(round(T_req , 2)) + '__' + 'English' + '.csv'
+                        str(round(P_req , 2)) + '__' + 'English' + '.csv'
         elif SI == True:
             prop_V   = prop_V / 2.23694
             prop_PWR = prop_PWR * 745.7
@@ -255,17 +255,16 @@ if __name__ == "__main__":
     if SI = False ===> inputs and results are expressed in the British System of Units
     """
     analysis.propeller_selection(50 , 8  , SI = False)
-    analysis.propeller_selection(11 , 130 , SI = True)
     """
     This command print the list of all propellers in the database : 509
     """
-    print(analysis.all_propellers())
+    #print(analysis.all_propellers())
     """
     This line calls the function info_propeller that returns the values of RPM
     (for which data is available) for a specific propeller
     input: Propeller name
     """
-    print(analysis.info_propeller('Propeller_105x45'))
+    #print(analysis.info_propeller('Propeller_105x45'))
     """
     This line calls the function propeller_performance. This function returns a plot chart
     about performance characteristics for all RPM values, for a given propeller
