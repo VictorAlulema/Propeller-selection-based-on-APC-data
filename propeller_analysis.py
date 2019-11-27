@@ -254,37 +254,37 @@ if __name__ == "__main__":
     if SI = True  ===> inputs and results are expressed in the International System of Units
     if SI = False ===> inputs and results are expressed in the British System of Units
     """
-    #analysis.propeller_selection(50 , 8  , SI = False)
+    analysis.propeller_selection(50 , 8  , SI = False)
     analysis.propeller_selection(11 , 130 , SI = True)
     """
     This command print the list of all propellers in the database : 509
     """
-    #print(analysis.all_propellers())
+    print(analysis.all_propellers())
     """
     This line calls the function info_propeller that returns the values of RPM
     (for which data is available) for a specific propeller
     input: Propeller name
     """
-    #print(analysis.info_propeller('Propeller_105x45'))
+    print(analysis.info_propeller('Propeller_105x45'))
     """
     This line calls the function propeller_performance. This function returns a plot chart
     about performance characteristics for all RPM values, for a given propeller
     """
-    #analysis.performance_propeller('Propeller_105x45')
+    analysis.performance_propeller('Propeller_105x45')
     """
     This line calls the function compare_propellers. This function returns a plot chart
     about performance characteristics for two or more propellers and for a given number of RPM.
     For this, all the propellers must have data for the given RPM values 
     """
-    #analysis.compare_propellers(['Propeller_9x6', 'Propeller_105x45'],
-                                #['RPM 1000' ,
-                                # 'RPM 2000' ,
-                                # 'RPM 3000'])
+    analysis.compare_propellers(['Propeller_9x6', 'Propeller_105x45'],
+                                ['RPM 1000' ,
+                                 'RPM 2000' ,
+                                 'RPM 3000'])
     """
     This line calls the function get_data that returns the performance date for a given propeller
     and for a given range of propellers
     """
-    #analysis.get_data('Propeller_105x45', ['RPM 1000' , 'RPM 2000'])
+    analysis.get_data('Propeller_105x45', ['RPM 1000' , 'RPM 2000'])
     
     
 
