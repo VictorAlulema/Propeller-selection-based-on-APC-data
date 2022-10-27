@@ -6,10 +6,9 @@ __email__   =   'victor.alulema@epn.edu.ec'
 import numpy as np
 import pandas as pd 
 import matplotlib.cm as cm
-from matplotlib import rcParams
 import matplotlib.pyplot as plt
 
-rcParams['text.latex.unicode']=True
+
 plt.rc('font', family='serif')
 
 class Propellers:
@@ -31,7 +30,7 @@ class Propellers:
                 prop_name.append(content[0])
             elif items == 2:
                 prop_rpm.append(index)           
-        prop_rpm  = np.array(prop_rpm  , dtype = np.int)
+        prop_rpm  = np.array(prop_rpm  , dtype = int)
         database = {}
         for index , prop in enumerate(prop_items):
             if index == len(prop_items) - 1:
@@ -49,7 +48,7 @@ class Propellers:
                         data = []
                         for i in range(l_bound , u_bound):
                             data.append(propellers[i][0].split(' '))
-                        RPM[propellers[prop_rpm[value]][0]] = np.array(data , dtype = np.float64)
+                        RPM[propellers[prop_rpm[value]][0]] = np.array(data , dtype = float)
                 database[prop_name[index]] = RPM
         return database
     def all_propellers(self):
@@ -110,14 +109,14 @@ class Propellers:
         propellers = propellers.reshape((int(len(propellers_selected) / 10) , 10))
         prop_name  = propellers[:,0]
         prop_rpm   = propellers[:,1]
-        prop_V     = np.array(propellers[:,2] , dtype = np.float)
-        prop_J     = np.array(propellers[:,3] , dtype = np.float)
-        prop_eff   = np.array(propellers[:,4] , dtype = np.float)
-        prop_Ct    = np.array(propellers[:,5] , dtype = np.float)
-        prop_Cp    = np.array(propellers[:,6] , dtype = np.float)
-        prop_PWR   = np.array(propellers[:,7] , dtype = np.float)
-        prop_t     = np.array(propellers[:,8] , dtype = np.float)
-        prop_T     = np.array(propellers[:,9] , dtype = np.float)
+        prop_V     = np.array(propellers[:,2] , dtype = float)
+        prop_J     = np.array(propellers[:,3] , dtype = float)
+        prop_eff   = np.array(propellers[:,4] , dtype = float)
+        prop_Ct    = np.array(propellers[:,5] , dtype = float)
+        prop_Cp    = np.array(propellers[:,6] , dtype = float)
+        prop_PWR   = np.array(propellers[:,7] , dtype = float)
+        prop_t     = np.array(propellers[:,8] , dtype = float)
+        prop_T     = np.array(propellers[:,9] , dtype = float)
         if SI == False:
             file_name = 'V' + str(round(speed , 2)) + '__' + 'T' + \
                         str(round(P_req , 2)) + '__' + 'English' + '.csv'
@@ -149,48 +148,24 @@ class Propellers:
         colors   = cm.jet(np.linspace(0, 1, len(data.keys())))
         keys     = sorted([int(i[4:]) for i in list(data.keys())])
         keys     = ['RPM' + ' ' + str(i) for i in keys]
-        fig      = plt.figure(figsize = (8.5 , 7))
-        for c , key in enumerate(keys):
-            a1 = fig.add_subplot(221)
-            a1.plot(data[str(key)][:,1] , data[str(key)][:,2] ,
-                    color = colors[c] ,
-                    linewidth = 0.9   ,
-                    label = key)
-            a1.spines['right'].set_visible(False)
-            a1.spines['top'].set_visible(False)
-            a1.set_ylabel('efficiency')
-            a2 = fig.add_subplot(222)
-            a2.plot(data[str(key)][:,1] , data[str(key)][:,5] ,
-                    color = colors[c] , 
-                    linewidth = 0.9   ,
-                    label = key)
-            a2.spines['right'].set_visible(False)
-            a2.spines['top'].set_visible(False)
-            a2.set_ylabel('Power [Hp]')
-            a3 = fig.add_subplot(223)
-            a3.plot(data[str(key)][:,1] , data[str(key)][:,6] ,
-                    color = colors[c] , 
-                    linewidth = 0.9   ,
-                    label = key)
-            a3.spines['right'].set_visible(False)
-            a3.spines['top'].set_visible(False)
-            a3.set_xlabel('J')
-            a3.set_ylabel('Torque [in-lbf]')
-            a3.legend(ncol = 2 , loc = 'upper right' ,
-                      fontsize = 7 , frameon = False)
-            a4 = fig.add_subplot(224)
-            a4.plot(data[str(key)][:,1] , data[str(key)][:,7] ,
-                    color = colors[c] , 
-                    linewidth = 0.9   ,
-                    label = key)
-            a4.spines['right'].set_visible(False)
-            a4.spines['top'].set_visible(False)
-            a4.set_xlabel('J')
-            a4.set_ylabel('Thrust [lbf]')
-            
-        fig.tight_layout()
+        
+        
+        indices = [2, 5, 6, 7]
+        labels = ['efficiency', 'Power [Hp]', 'Torque [in-lbf]', 'Thrust [lbf]']
+
+        for index, label in zip(indices, labels):
+            plt.figure(figsize = (8 , 8))
+            for c , key in enumerate(keys):
+                plt.plot(data[str(key)][:,1] , data[str(key)][:,index] ,
+                        color = colors[c] ,
+                        linewidth = 0.9   ,
+                        label = key)
+                plt.legend(ncol = 2 , loc = 'upper right',
+                        fontsize = 7 , frameon = False)
+                plt.ylabel(label)
+                plt.xlabel('J')
         plt.show()
-        return
+        return keys
     
     def compare_propellers(self , propellers , RPM_range):
         data     = Propellers.database(self)
@@ -269,7 +244,7 @@ if __name__ == "__main__":
     This line calls the function propeller_performance. This function returns a plot chart
     about performance characteristics for all RPM values, for a given propeller
     """
-    analysis.performance_propeller('Propeller_105x45')
+    print(analysis.performance_propeller('Propeller_105x45'))
     """
     This line calls the function compare_propellers. This function returns a plot chart
     about performance characteristics for two or more propellers and for a given number of RPM.
